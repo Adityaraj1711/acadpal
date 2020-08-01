@@ -1,8 +1,7 @@
 from django.db import models
 
+
 # Create your models here.
-
-
 class Country(models.Model):
     """Represents a "Country model". Stores all country GDP and population
     related data"""
