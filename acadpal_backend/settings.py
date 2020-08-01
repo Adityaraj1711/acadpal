@@ -121,13 +121,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Rest custom settings
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-    ),
-}
-
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = '/static/'

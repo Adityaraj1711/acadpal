@@ -6,7 +6,7 @@ class Country(models.Model):
     """Represents a "Country model". Stores all country GDP and population
     related data"""
 
-    name = models.CharField(max_length=100, unique=True, editable=False)
+    name = models.CharField(max_length=100, unique=True)
     description = models.TextField()
     population = models.IntegerField()
     gdp = models.FloatField()
@@ -20,15 +20,14 @@ class Country(models.Model):
 class State(models.Model):
     """Represents a "State model". Stores GDP and population of each state for each country """
 
-    country = models.ForeignKey(Country, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, unique=True, editable=False)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name='states')
+    name = models.CharField(max_length=100, unique=True)
     description = models.TextField()
     population = models.IntegerField()
     gdp = models.FloatField()
 
     def __str__(self):
         """Return the model as a string."""
-
         return self.name
 
 

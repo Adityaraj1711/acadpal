@@ -2,15 +2,6 @@ from rest_framework import serializers
 from .models import Country, State, City, Town, Person
 
 
-class CountrySerializer(serializers.ModelSerializer):
-    """
-    A serializer for country details.
-    """
-    class Meta:
-        model = Country
-        fields = '__all__'
-
-
 class StateSerializer(serializers.ModelSerializer):
     """A serializer for college details."""
 
@@ -33,6 +24,24 @@ class TownSerializer(serializers.ModelSerializer):
     class Meta:
         model = Town
         fields = '__all__'
+
+
+class CountrySerializer(serializers.ModelSerializer):
+    """
+    A serializer for country details.
+    """
+    states = StateSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Country
+        fields = ['name','description',  'gdp', 'population', 'states']
+
+    def create(self, validated_data):
+        states_data = validated_data.pop('states')
+        country = Country.objects.create(**validated_data)
+        for state_data in states_data:
+            State.objects.create(country=country, **state_data)
+        return country
 
 
 class PersonSerializer(serializers.ModelSerializer):

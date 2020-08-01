@@ -3,7 +3,11 @@ from .models import Country, State, City, Town, Person
 
 
 class CountryAdmin(admin.ModelAdmin):
-    readonly_fields=('name',)
+    def get_readonly_fields(self, request, obj=None):
+        readonly_fields = super(CountryAdmin, self).get_readonly_fields(request, obj)
+        if obj:  # editing an existing object
+            return readonly_fields + ('description', 'gdp')
+        return readonly_fields
 
 
 # Register your models here.

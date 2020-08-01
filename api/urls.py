@@ -1,5 +1,10 @@
+from django.urls import path, include
 from django.conf.urls import url
-from django.conf.urls import include
+from rest_framework.routers import DefaultRouter
+from .views import CountryListViewSet, CountryDetailViewSet
 
 
-urlpatterns = []
+urlpatterns = [
+    path("country/", CountryListViewSet.as_view(), name="country_list"),
+    path("country/<int:pk>", CountryDetailViewSet.as_view(), name="country_detail"),
+]
