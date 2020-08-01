@@ -37,8 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # django rest framework
     'rest_framework',
     'rest_framework.authtoken',
+
+    # custom apps
     'api'
 ]
 
@@ -71,6 +75,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'acadpal_backend.wsgi.application'
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 # Database
@@ -116,14 +121,18 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Rest custom settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-        'rest_framework_social_oauth2.authentication.SocialAuthentication',
     ),
 }
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = 'media/'
+# STATIC_ROOT = '/static/'
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
