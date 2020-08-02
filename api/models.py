@@ -62,8 +62,9 @@ class Town(models.Model):
 
 
 class Person(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, default='')
+    town = models.ForeignKey(Town, on_delete=models.PROTECT, related_name='townperson', null=True)
+    city = models.ForeignKey(City, on_delete=models.PROTECT, related_name='cityperson', null=True)
 
     def __str__(self):
         return self.name
-

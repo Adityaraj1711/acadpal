@@ -2,8 +2,17 @@ from rest_framework import serializers
 from .models import Country, State, City, Town, Person
 
 
+class PersonSerializer(serializers.ModelSerializer):
+    """A serializer for interest model."""
+
+    class Meta:
+        model = Person
+        fields = '__all__'
+
+
 class CitySerializer(serializers.ModelSerializer):
     """A serializer for interest model."""
+    cityperson = PersonSerializer(many=True, read_only=True)
 
     class Meta:
         model = City
@@ -12,6 +21,7 @@ class CitySerializer(serializers.ModelSerializer):
 
 class TownSerializer(serializers.ModelSerializer):
     """A serializer for interest model."""
+    townperson = PersonSerializer(many=True, read_only=True)
 
     class Meta:
         model = Town
@@ -39,16 +49,9 @@ class CountrySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'description',  'gdp', 'population', 'states']
 
     # def create(self, validated_data):
-    #     states_data = validated_data.pop('states')
-    #     country = Country.objects.create(**validated_data)
-    #     for state_data in states_data:
-    #         State.objects.create(country=country, **state_data)
-    #     return country
+        # states_data = validated_data.pop('states')
+        # country = Country.objects.create(**validated_data)
+        # for state_data in states_data:
+        #     State.objects.create(country=country, **state_data)
+        # return country
 
-
-class PersonSerializer(serializers.ModelSerializer):
-    """A serializer for interest model."""
-
-    class Meta:
-        model = Person
-        fields = '__all__'
