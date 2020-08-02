@@ -44,7 +44,7 @@ class CountryDetailViewSet(APIView):
         print(country.name)
         serializer = CountrySerializer(country, data=request.data)
         if 'name' in request.data and not country.name == request.data['name']:
-            name_error = {"name": ["country name update not allowed"]}
+            name_error = {"name": ["state name update not allowed"]}
             return Response(name_error, status=status.HTTP_400_BAD_REQUEST)
         if serializer.is_valid():
             print(request.data)
@@ -64,7 +64,7 @@ class StateListViewSet(APIView):
     def get(self, request, format=None):
         """Returns a list of countries"""
         state = State.objects.all()
-        serializer = CountrySerializer(state, many=True)
+        serializer = StateSerializer(state, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -76,7 +76,7 @@ class StateListViewSet(APIView):
 
 
 class StateDetailViewSet(APIView):
-    """ Perform get, update, delete operation for country """
+    """ Perform get, update, delete operation for a state """
 
     def get_object(self, pk):
         try:
@@ -106,4 +106,95 @@ class StateDetailViewSet(APIView):
         state = self.get_object(pk)
         state.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CityListViewSet(APIView):
+    """Handles reading city information"""
+
+    def get(self, request, format=None):
+        """Returns a list of countries"""
+        city = City.objects.all()
+        serializer = CitySerializer(city, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = CitySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CityDetailViewSet(APIView):
+    """ Perform get, update, delete operation for a city """
+
+    def get_object(self, pk):
+        try:
+            return City.objects.get(pk=pk)
+        except City.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        city = self.get_object(pk)
+        serializer = StateSerializer(city)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        city = self.get_object(pk)
+        serializer = StateSerializer(city, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        city = self.get_object(pk)
+        city.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class TownListViewSet(APIView):
+    """Handles reading town information"""
+
+    def get(self, request, format=None):
+        """Returns a list of countries"""
+        town = Town.objects.all()
+        serializer = TownSerializer(town, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = TownSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TownDetailViewSet(APIView):
+    """ Perform get, update, delete operation for a town """
+
+    def get_object(self, pk):
+        try:
+            return Town.objects.get(pk=pk)
+        except Town.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        town = self.get_object(pk)
+        serializer = StateSerializer(town)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        town = self.get_object(pk)
+        serializer = StateSerializer(town, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        town = self.get_object(pk)
+        town.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
