@@ -9,6 +9,19 @@
 -  For all API’s return DRF’s Response object with appropriate http status codes. Handling of cases of invalid data, duplicate entry for the same Country, State, City/Town object has been taken care.
 
 
+## You can find the complete API documentation [here](https://documenter.getpostman.com/view/5616249/T1Dv9FKP?version=latest)
+<a href="https://documenter.getpostman.com/view/5616249/T1Dv9FKP?version=latest" target="_blank">
+    <a href = "https://documenter.getpostman.com/view/5616249/T1Dv9FKP?version=latest"><button style="background-color: #4CAF50; margin: 4px 2px; cursor: pointer; padding: 15px 32px;"> View API Docs</buttom></a>
+</a>
+
+
+Features that are taken into consideration while building.
+- **Backend written using Django Framework** - Django provides simplicity, flexibility, reliability, and scalability. Django has its own naming system for all functions and components
+ - **Easy to Customize** - Pluggable and easy to customize emitters, parsers, validators.
+ - **Response Handling** - HTTP response handling, content type negotiation using HTTP Accept headers.
+ - **Views for request/response** - Clean, simple, views for Resources, using Django's class-based views.
+ - **Converting data into valid HTTP request** - Powerful serialization engine using Django's rest framework.
+ - **Feature encapsulation** - Django follows a file naming convention to manage the apps and so different feature are group together.
 
 
 ## License
