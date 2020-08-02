@@ -9,13 +9,13 @@
 -  For all API’s return DRF’s Response object with appropriate http status codes. Handling of cases of invalid data, duplicate entry for the same Country, State, City/Town object has been taken care.
 
 
-## You can find the complete API documentation [here](https://documenter.getpostman.com/view/5616249/T1Dv9FKP?version=latest)
+## Find Postman API documentation [here](https://documenter.getpostman.com/view/5616249/T1Dv9FKP?version=latest)
 <a href="https://documenter.getpostman.com/view/5616249/T1Dv9FKP?version=latest" target="_blank">
     <a href = "https://documenter.getpostman.com/view/5616249/T1Dv9FKP?version=latest"><button style="background-color: #4CAF50; margin: 4px 2px; cursor: pointer; padding: 15px 32px;"> View API Docs</buttom></a>
 </a>
 
 
-Features that are taken into consideration while building.
+### Features that are taken into consideration while building.
 - **Backend written using Django Framework** - Django provides simplicity, flexibility, reliability, and scalability. Django has its own naming system for all functions and components
  - **Easy to Customize** - Pluggable and easy to customize emitters, parsers, validators.
  - **Response Handling** - HTTP response handling, content type negotiation using HTTP Accept headers.
