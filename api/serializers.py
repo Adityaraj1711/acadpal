@@ -3,29 +3,32 @@ from .models import Country, State, City, Town, Person
 
 
 class PersonSerializer(serializers.ModelSerializer):
-    """A serializer for interest model."""
+    """A serializer for person model."""
 
     class Meta:
         model = Person
         fields = '__all__'
+        depth = 3
 
 
 class CitySerializer(serializers.ModelSerializer):
-    """A serializer for interest model."""
+    """A serializer for city model."""
     cityperson = PersonSerializer(many=True, read_only=True)
 
     class Meta:
         model = City
         fields = '__all__'
+        depth = 1
 
 
 class TownSerializer(serializers.ModelSerializer):
-    """A serializer for interest model."""
+    """A serializer for town model."""
     townperson = PersonSerializer(many=True, read_only=True)
 
     class Meta:
         model = Town
         fields = '__all__'
+        depth = 1
 
 
 class StateSerializer(serializers.ModelSerializer):
