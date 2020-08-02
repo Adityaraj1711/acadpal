@@ -47,7 +47,7 @@ class CountryDetailViewSet(APIView):
         print(country.name)
         serializer = CountrySerializer(country, data=request.data)
         if 'name' in request.data and not country.name == request.data['name']:
-            name_error = {"name": ["state name update not allowed"]}
+            name_error = {"name": ["country name update not allowed"]}
             return Response(name_error, status=status.HTTP_400_BAD_REQUEST)
         if serializer.is_valid():
             print(request.data)
@@ -145,7 +145,7 @@ class CityDetailViewSet(APIView):
 
     def put(self, request, pk, format=None):
         city = self.get_object(pk)
-        serializer = StateSerializer(city, data=request.data)
+        serializer = CitySerializer(city, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -205,7 +205,7 @@ class TownDetailViewSet(APIView):
 
 class PersonListViewSet(APIView, PageNumberPagination):
     """Handles reading person information"""
-    filter_fields = ('name', 'town', 'city', 'town__state__country__name', 'city__state__country__name', 'city__state__name', 'town__state__name')
+    filter_fields = ('name', 'town', 'city', 'town__state__country', 'city__state__country', 'city__state', 'town__state')
 
     def get(self, request, format=None):
         """Returns a list of countries"""
@@ -213,7 +213,7 @@ class PersonListViewSet(APIView, PageNumberPagination):
         filter = PersonFilter()
         filtered_queryset = filter.filter_queryset(request, person, self)
         if filtered_queryset.exists():
-            result = self.paginate_queryset(person, request)
+            result = self.paginate_queryset(filtered_queryset, request)
             serializer = PersonSerializer(result, many=True)
             return Response(serializer.data)
         else:
