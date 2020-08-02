@@ -25,7 +25,7 @@ SECRET_KEY = '3$s5v!0i%%-mra_a@fll1#k+3@)j^4^9b=x6e$(w$n#w6ja1wk'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -129,3 +129,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media/'
 # STATIC_ROOT = '/static/'
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': ['rest_framework.pagination.PageNumberPagination'],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'PAGE_SIZE': 20
+}

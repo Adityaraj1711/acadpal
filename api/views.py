@@ -1,21 +1,24 @@
 from django.shortcuts import render
 from django.http import Http404
+from rest_framework.pagination import LimitOffsetPagination, PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from .models import Country, State, Town, City, Person
 from .serializers import CountrySerializer, StateSerializer, CitySerializer, TownSerializer, PersonSerializer
+from .filters import PersonFilter
 
 
 # Create your views here.
-class CountryListViewSet(APIView):
+class CountryListViewSet(APIView, PageNumberPagination):
     """Handles reading Country information"""
 
     def get(self, request, format=None):
         """Returns a list of countries"""
         country = Country.objects.all()
-        serializer = CountrySerializer(country, many=True)
-        return Response(serializer.data)
+        result = self.paginate_queryset(country, request)
+        serializer = CountrySerializer(result, many=True, context={'request':request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
         country_serializer = CountrySerializer(data=request.data)
@@ -58,13 +61,14 @@ class CountryDetailViewSet(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class StateListViewSet(APIView):
+class StateListViewSet(APIView, PageNumberPagination):
     """Handles reading state information"""
 
     def get(self, request, format=None):
         """Returns a list of countries"""
         state = State.objects.all()
-        serializer = StateSerializer(state, many=True)
+        result = self.paginate_queryset(state, request)
+        serializer = StateSerializer(result, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -91,7 +95,6 @@ class StateDetailViewSet(APIView):
 
     def put(self, request, pk, format=None):
         state = self.get_object(pk)
-        print(state.name)
         serializer = StateSerializer(state, data=request.data)
         if 'name' in request.data and not state.name == request.data['name']:
             name_error = {"name": ["country name update not allowed"]}
@@ -108,13 +111,14 @@ class StateDetailViewSet(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class CityListViewSet(APIView):
+class CityListViewSet(APIView, PageNumberPagination):
     """Handles reading city information"""
 
     def get(self, request, format=None):
         """Returns a list of countries"""
         city = City.objects.all()
-        serializer = CitySerializer(city, many=True)
+        result = self.paginate_queryset(city, request)
+        serializer = CitySerializer(result, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -136,7 +140,7 @@ class CityDetailViewSet(APIView):
 
     def get(self, request, pk, format=None):
         city = self.get_object(pk)
-        serializer = StateSerializer(city)
+        serializer = CitySerializer(city)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
@@ -153,13 +157,14 @@ class CityDetailViewSet(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class TownListViewSet(APIView):
+class TownListViewSet(APIView, PageNumberPagination):
     """Handles reading town information"""
 
     def get(self, request, format=None):
         """Returns a list of countries"""
         town = Town.objects.all()
-        serializer = TownSerializer(town, many=True)
+        result = self.paginate_queryset(town, request)
+        serializer = TownSerializer(result, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -198,14 +203,21 @@ class TownDetailViewSet(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class PersonListViewSet(APIView):
+class PersonListViewSet(APIView, PageNumberPagination):
     """Handles reading person information"""
+    filter_fields = ('name', 'town', 'city', 'town__state__country__name', 'city__state__country__name', 'city__state__name', 'town__state__name')
 
     def get(self, request, format=None):
         """Returns a list of countries"""
         person = Person.objects.all()
-        serializer = PersonSerializer(person, many=True)
-        return Response(serializer.data)
+        filter = PersonFilter()
+        filtered_queryset = filter.filter_queryset(request, person, self)
+        if filtered_queryset.exists():
+            result = self.paginate_queryset(person, request)
+            serializer = PersonSerializer(result, many=True)
+            return Response(serializer.data)
+        else:
+            return Response([], status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
         serializer = PersonSerializer(data=request.data)
