@@ -34,8 +34,7 @@ class State(models.Model):
 class City(models.Model):
     """Represents a "City model". Stores GDP, description and population of each city for each state """
 
-    state = models.ForeignKey(State, on_delete=models.CASCADE)
-    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    state = models.ForeignKey(State, on_delete=models.CASCADE, related_name='cities')
     description = models.TextField()
     population = models.IntegerField()
     gdp = models.FloatField()
@@ -50,8 +49,7 @@ class City(models.Model):
 class Town(models.Model):
     """Represents a "Town model". Stores GDP, description and population of each town for each state """
 
-    state = models.ForeignKey(State, on_delete=models.CASCADE)
-    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    state = models.ForeignKey(State, on_delete=models.CASCADE, related_name='towns')
     description = models.TextField()
     population = models.IntegerField()
     gdp = models.FloatField()
