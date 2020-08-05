@@ -23,6 +23,8 @@
  - **Converting data into valid HTTP request** - Powerful serialization engine using Django's rest framework.
  - **Feature encapsulation** - Django follows a file naming convention to manage the apps and so different feature are group together.
 
+### A similar project can be found [here](https://github.com/Adityaraj1711/django-backend-architecture) 
+
 ### Models
 <p align="center">
     <img src="https://raw.githubusercontent.com/Adityaraj1711/acadpal/master/acadpal.png?raw=true">
